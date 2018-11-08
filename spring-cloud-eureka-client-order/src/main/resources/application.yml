@@ -1,5 +1,5 @@
 server:
-  port: 6001
+  port: 7000
 eureka:
   instance:
     hostname: localhost
@@ -10,4 +10,4 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
 spring:
   application:
-    name: product-service
+    name: order-service
