@@ -12,6 +12,9 @@ import java.util.UUID;
 
 @Service
 public class ProductOrderServiceImpl implements ProductOrderService {
+    /**
+     * 调用方式一 = 调用方式二
+     */
     // 调用方式一
     @Autowired
     private RestTemplate restTemplate;
