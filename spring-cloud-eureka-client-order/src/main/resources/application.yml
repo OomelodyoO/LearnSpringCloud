@@ -23,5 +23,7 @@ feign:
     config:
       # default 可以为服务名字
       default:
-        connectTimeout: 2100
+        connectTimeout: 2000
         readTimeout: 2000
+  hystrix:
+    enabled: true
