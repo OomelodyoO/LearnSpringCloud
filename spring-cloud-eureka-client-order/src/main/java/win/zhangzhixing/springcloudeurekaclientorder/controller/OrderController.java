@@ -2,7 +2,9 @@ package win.zhangzhixing.springcloudeurekaclientorder.controller;
 
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import win.zhangzhixing.springcloudeurekaclientorder.service.ProductOrderService
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1/order")
@@ -17,6 +20,8 @@ public class OrderController {
 
     @Autowired
     private ProductOrderService productOrderService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @RequestMapping("save")
     @HystrixCommand(fallbackMethod = "saveOrderFail")
@@ -29,6 +34,18 @@ public class OrderController {
 
     // 注意，方法签名一定要和api方法一直
     private Object saveOrderFail(int userId, int productId) {
+        String saveOrderKey = "save-order";
+        String sendValue = redisTemplate.opsForValue().get(saveOrderKey);
+        new Thread(() -> {
+            if (StringUtils.isBlank(sendValue)) {
+                System.out.println("紧急短信，下单失败");
+                redisTemplate.opsForValue().set(saveOrderKey, "save-order-fail", 5, TimeUnit.SECONDS);
+            } else {
+                System.out.println("20秒内不重新发送");
+            }
+        }).start();
+
+
         Map<String, Object> msg = new HashMap<>();
         msg.put("code", -1);
         msg.put("msg", "抢购人数太多");
