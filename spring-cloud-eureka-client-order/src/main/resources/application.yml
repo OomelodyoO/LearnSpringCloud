@@ -17,7 +17,7 @@ product-service:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
-#  修改超时调用时间
+# 修改超时调用时间
 feign:
   client:
     config:
@@ -25,5 +25,14 @@ feign:
       default:
         connectTimeout: 2000
         readTimeout: 2000
+  # 开启feign的hystrix可以使用
   hystrix:
     enabled: true
+# hystrix超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
