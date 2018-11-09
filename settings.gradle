@@ -1,3 +1,4 @@
 rootProject.name = 'LearnSpringCloud'
 include 'spring-cloud-eureka-server'
 include 'spring-cloud-eureka-client-product'
+include 'spring-cloud-eureka-client-order'

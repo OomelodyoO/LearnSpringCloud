@@ -11,3 +11,17 @@ eureka:
 spring:
   application:
     name: order-service
+
+
+product-service:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+#  修改超时调用时间
+feign:
+  client:
+    config:
+      # default 可以为服务名字
+      default:
+        connectTimeout: 2100
+        readTimeout: 2000

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import win.zhangzhixing.springcloudeurekaclientproduct.domain.Product;
 import win.zhangzhixing.springcloudeurekaclientproduct.service.ProductService;
 
+import java.util.concurrent.TimeUnit;
+
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
@@ -24,6 +26,11 @@ public class ProductController {
 
     @RequestMapping("find")
     public Object findById(@RequestParam("id") int id) {
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Product product = productService.findById(id);
         Product result = new Product();
         BeanUtils.copyProperties(product, result);
