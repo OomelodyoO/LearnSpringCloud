@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import win.zhangzhixing.springcloudeurekaclientorder.service.ProductOrderService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +26,17 @@ public class OrderController {
 
     @RequestMapping("save")
     @HystrixCommand(fallbackMethod = "saveOrderFail")
-    public Object save(@RequestParam("user_id") int userId, @RequestParam("product_id") int productId) {
+    public Object save(
+            @RequestParam("user_id") int userId,
+            @RequestParam("product_id") int productId,
+            HttpServletRequest request
+    ) {
+        String token = request.getHeader("token");
+        String cookie = request.getHeader("cookie");
+
+        System.out.println("token:" + token);
+        System.out.println("cookie:" + cookie);
+
         Map<String, Object> msg = new HashMap<>();
         msg.put("code", -1);
         msg.put("msg", productOrderService.save(userId, productId));
@@ -33,7 +44,7 @@ public class OrderController {
     }
 
     // 注意，方法签名一定要和api方法一直
-    private Object saveOrderFail(int userId, int productId) {
+    private Object saveOrderFail(int userId, int productId, HttpServletRequest request) {
         String saveOrderKey = "save-order";
         String sendValue = redisTemplate.opsForValue().get(saveOrderKey);
         new Thread(() -> {

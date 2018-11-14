@@ -15,8 +15,11 @@ spring:
 # 自定义路由映射
 zuul:
   routes:
-    order-service: /apigateway/**
-    product-service: /apigateway/**
+    # 后面名字需要唯一
+    order-service: /apigateway/order/**
+    product-service: /apigateway/product/**
   # 忽略整个服务，对外提供接口
-  #  ignored-services: product-service
+  # ignored-services: product-service
   ignored-patterns: /*-service/**
+  # 处理http请求头为空的问题
+  sensitive-headers:
