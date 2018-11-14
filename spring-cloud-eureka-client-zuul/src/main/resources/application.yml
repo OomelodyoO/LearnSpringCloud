@@ -1,0 +1,22 @@
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+spring:
+  application:
+    name: api-gateway
+
+# 自定义路由映射
+zuul:
+  routes:
+    order-service: /apigateway/**
+    product-service: /apigateway/**
+  # 忽略整个服务，对外提供接口
+  #  ignored-services: product-service
+  ignored-patterns: /*-service/**
