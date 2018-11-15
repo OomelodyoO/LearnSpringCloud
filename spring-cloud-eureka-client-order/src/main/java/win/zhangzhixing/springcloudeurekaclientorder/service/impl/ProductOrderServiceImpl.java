@@ -1,6 +1,8 @@
 package win.zhangzhixing.springcloudeurekaclientorder.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import win.zhangzhixing.springcloudeurekaclientorder.domain.ProductOrder;
@@ -13,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class ProductOrderServiceImpl implements ProductOrderService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     /**
      * 调用方式一 = 调用方式二
      */
@@ -36,6 +39,8 @@ public class ProductOrderServiceImpl implements ProductOrderService {
         // String url = String.format("http://%s:%s/api/v1/product/find?id=" + productId, instance.getHost(), instance.getPort());
         // RestTemplate restTemplate = new RestTemplate();
         // Map<String, Object> productMap = restTemplate.getForObject(url, Map.class);
+
+        logger.info("service save order");
 
         String response = productClient.findById(productId);
         JsonNode jsonNode = JsonUtils.str2JsonNod(response);
