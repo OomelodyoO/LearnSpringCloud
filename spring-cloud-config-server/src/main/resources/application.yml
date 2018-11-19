@@ -1,0 +1,21 @@
+server:
+  port: 9000
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://zhangzhixing@192.168.7.241:18080/zhangzhixing/config_cloud.git
+          username: zhangzhixing@boce.cn
+          password: password
+          timeout: 5
+          default-label: master
